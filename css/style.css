@@ -1,0 +1,64 @@
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: rgb(54, 54, 0);
+    padding-top: 30px;
+}
+
+h1{
+    margin: 20px;
+}
+
+#container {
+    font-family: 'Comfortaa', cursive;
+    font-size: 20px;
+    width: 400px;
+    height: 550px;
+    border: 1px solid black;
+    margin: auto;
+    padding: 0 50px;
+    box-sizing: border-box;
+    background-color: white;
+}
+
+#gameboard {
+    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(3,100px);
+    align-content: center;
+}
+
+
+.playChoice {
+    font-family: 'Comfortaa', cursive;
+    width: 100px;
+    height: 100px;
+    font-size: 70px;
+    padding-top: 10px;
+    box-sizing: border-box;
+}
+
+#one, #two, #three, #four, #five, #six {
+    border-bottom: grey solid 5px;
+}
+
+#four, #five, #six, #seven, #eight, #nine{
+    border-top: grey solid 5px;
+}
+
+#one, #two, #four, #five, #seven, #eight{
+    border-right: grey solid 5px; 
+}
+
+#two, #three, #five, #six, #eight, #nine{
+    border-left: grey solid 5px; 
+}
+
+#restart {
+    font-size: 20px;
+    width: 100px;
+    height: 50px;
+    margin: 10px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
