@@ -11,8 +11,22 @@
 <body>
     <div id="container">
         <h1>Tic Tac Toe</h1>
-        <p>Player 1</p>
-        <p>Computer</p>
+        <div id="players">
+            <div id='player1'>
+                <label for="player1Name" class='player1'>Player 1</label>
+                <input type="text" class='player1' id="player1Name" placeholder='Insert Player 1 Name'>
+            </div>
+            <div id='player2'>
+                <label for="player2Name" class='player2'>Player 2</label>
+                <input type="text" class='player2' id="player2Name" placeholder='Insert Player 2 Name'>
+            </div>
+        </div>
+        <div id='AI'>
+            <label for="oponent" class='chooseOponentText'>Human</label>
+            <input type="radio" name="chooseOponent" class='chooseOponent' id='humanSelector'>
+            <label for="oponent" class='chooseOponentText'>Computer</label>
+            <input type="radio" name="chooseOponent" class='chooseOponent'>
+        </div>
         <div id="gameboard">
             <button class="playChoice" id="one"></button>
             <button class="playChoice" id="two"></button>
@@ -24,7 +38,9 @@
             <button class="playChoice" id="eight"></button>
             <button class="playChoice" id="nine"></button>
         </div>
-        <div>
+        <div id='startRestart'>
+            <p id="message"></p>
+            <button id="start">Start</button>
             <button id="restart">Restart</button>
         </div>
     </div>
