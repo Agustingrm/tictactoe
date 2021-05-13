@@ -19,8 +19,20 @@ const Gameboard = (() => {
     let R = [];
 
     const message = document.getElementById('message')
-
     const start = document.getElementById('start');
+
+    let againstHuman = document.getElementById('humanSelector')
+    let againstComputer = document.getElementById('computerSelector')
+
+    const player2Display = document.getElementById('player2')
+
+    againstComputer.addEventListener('click',() => {
+            player2Display.style.display = 'none'
+    })
+
+    againstHuman.addEventListener('click',() => {
+            player2Display.style.display = 'flex'
+    })
 
     start.addEventListener('click',() => game())
 
@@ -33,11 +45,19 @@ const Gameboard = (() => {
 
         let turnToPlay = player1.name
 
+
+
         if (document.getElementById('player1Name').value == ''){
             message.style.display = 'block'
-            message.innerHTML = 'Please insert your Name'
+            message.innerHTML = 'Please insert Player 1 Name'
             message.style.color = 'red'
             return
+        }
+        if (document.getElementById('player2Name').value == '' && againstHuman.checked == true){
+                message.style.display = 'block'
+                message.innerHTML = 'Please insert Player 2 Name'
+                message.style.color = 'red'
+                return
         }
         else {
             displayBoard.style.display = 'grid'
@@ -45,9 +65,7 @@ const Gameboard = (() => {
             restart.style.display = 'inline-block'
             message.style.display = 'none'
             message.style.color = 'black'
-            if (player2.name == undefined){
-                player2 = playerFactory('computer')
-            }
+            if (againstHuman.checked == true)
             for (let i=0;i<9;i++){
                 gameboard[i].addEventListener('click',() => {
                     if (turnToPlay == player1.name && R[i] == undefined && gameover == false){
@@ -65,6 +83,27 @@ const Gameboard = (() => {
                 })
             }
 
+            let randomPosibilities = [0,1,2,3,4,5,6,7,8]
+
+            if (againstComputer.checked == true){
+                player2 = playerFactory('Computer')
+                for (let i=0;i<9;i++){
+                    gameboard[i].addEventListener('click',() => {
+                        if (turnToPlay == player1.name && R[i] == undefined && gameover == false){
+                            R[i] = 1;
+                            randomPosibilities.splice(randomPosibilities.findIndex((element) => element == i),1)
+                            gameboard[i].innerHTML = 'X'
+                            console.log('a'+randomPosibilities)
+                            evaluateResult();
+                            let randomValue = Math.floor(Math.random()*randomPosibilities.length)
+                            R[randomValue] = -1;
+                            randomPosibilities.splice(randomPosibilities.findIndex((element) => element == R[randomValue]),1)
+                            console.log(randomPosibilities)
+                            displayMachineResult()
+                        }
+                    })
+                }
+            }
             let gameover = false;
 
             const evaluateResult = function(){
@@ -87,6 +126,14 @@ const Gameboard = (() => {
                         return gameover = true
                     }
                 }
+            }
+        }
+    }
+
+    const displayMachineResult = function(){
+        for (let i=0;i<9;i++){
+            if (R[i] == -1){
+                gameboard[i].innerHTML = 'O'
             }
         }
     }
