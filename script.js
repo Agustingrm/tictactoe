@@ -34,6 +34,9 @@ const Gameboard = (() => {
             player2Display.style.display = 'flex'
     })
 
+    let gameover = false;
+    let randomPosibilities = [0,1,2,3,4,5,6,7,8];
+
     start.addEventListener('click',() => game())
 
     const game = function(){
@@ -83,9 +86,8 @@ const Gameboard = (() => {
                 })
             }
 
-            let randomPosibilities = [0,1,2,3,4,5,6,7,8]
-
             if (againstComputer.checked == true){
+
                 player2 = playerFactory('Computer')
                 for (let i=0;i<9;i++){
                     gameboard[i].addEventListener('click',() => {
@@ -93,25 +95,27 @@ const Gameboard = (() => {
                             R[i] = 1;
                             randomPosibilities.splice(randomPosibilities.findIndex((element) => element == i),1)
                             gameboard[i].innerHTML = 'X'
-                            console.log('a'+randomPosibilities)
                             evaluateResult();
+                            evaluateTie();
                             let randomValue = Math.floor(Math.random()*randomPosibilities.length)
-                            R[randomValue] = -1;
-                            randomPosibilities.splice(randomPosibilities.findIndex((element) => element == R[randomValue]),1)
-                            console.log(randomPosibilities)
+                            R[randomPosibilities[randomValue]] = -1;
+                            console.log('Random Value ' + randomValue)
+                            let numberSelectedByComputer = randomPosibilities.findIndex((element) => element == randomPosibilities[randomValue])
+                            randomPosibilities.splice(numberSelectedByComputer,1)
+                            console.log('random posi ' + randomPosibilities)
+                            console.log('R = '+ R)
+                            evaluateResult();
                             displayMachineResult()
                         }
                     })
                 }
             }
-            let gameover = false;
-
+            
             const evaluateResult = function(){
                 for (let i=0;i<9;i++){
                     //In a 3x3 conventional tic tac toe exist 8 posible winning results.These ones are:
                     let winningResults = [(R[0]+R[1]+R[2]),(R[3]+R[4]+R[5]),(R[6]+R[7]+R[8]),(R[0]+R[3]+R[6]),(R[1]+R[4]+R[7]),
                     (R[2]+R[5]+R[8]),(R[0]+R[4]+R[8]),(R[2]+R[4]+R[6])];
-
                     if (winningResults[i] === 3) {
                         message.style.display = 'block'
                         message.innerHTML = player1.name + ' wins'
@@ -137,7 +141,15 @@ const Gameboard = (() => {
             }
         }
     }
-        
+
+    const evaluateTie = function(){
+        if(randomPosibilities == false && message.innerText == ''){
+            console.log('aaa')
+            message.style.display = 'block'
+            message.innerHTML = 'It\'s a Tie! Play Again'
+        }
+    }
+
     const restart = document.getElementById('restart')
             restart.addEventListener('click', () => {
                     for (let i=0;i<9;i++){
@@ -145,9 +157,12 @@ const Gameboard = (() => {
                     }
                     R = []
                     gameover = false
-                    message.innerHTML = '&nbsp'
+                    message.innerHTML = ''
+                    randomPosibilities = [0,1,2,3,4,5,6,7,8]
+                    turnToPlay = player1.name
                     game();
-            })        
+            })    
+             
     return {R}
 })();
 
