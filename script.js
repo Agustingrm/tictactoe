@@ -23,6 +23,8 @@ const Gameboard = (() => {
 
     let againstHuman = document.getElementById('humanSelector')
     let againstComputer = document.getElementById('computerSelector')
+    let humanDisplay = document.getElementById('humanDisplay')
+    let computerDisplay = document.getElementById('computerDisplay')
 
     const player2Display = document.getElementById('player2')
 
@@ -48,8 +50,6 @@ const Gameboard = (() => {
 
         let turnToPlay = player1.name
 
-
-
         if (document.getElementById('player1Name').value == ''){
             message.style.display = 'block'
             message.innerHTML = 'Please insert Player 1 Name'
@@ -68,25 +68,38 @@ const Gameboard = (() => {
             restart.style.display = 'inline-block'
             message.style.display = 'none'
             message.style.color = 'black'
-            if (againstHuman.checked == true)
-            for (let i=0;i<9;i++){
-                gameboard[i].addEventListener('click',() => {
-                    if (turnToPlay == player1.name && R[i] == undefined && gameover == false){
-                        R[i] = 1;
-                        gameboard[i].innerHTML = 'X'
-                        turnToPlay = player2.name;
-                        evaluateResult();
-                    }
-                    else if (turnToPlay == player2.name && R[i] == undefined && gameover == false) {
-                        R[i] = -1;
-                        gameboard[i].innerHTML = 'O'
-                        turnToPlay = player1.name;
-                        evaluateResult();
-                    }
-                })
+
+            if (againstHuman.checked == true){ //Logic player vs player
+
+                againstComputer.style.display = 'none'
+                computerDisplay.style.display = 'none'
+
+                for (let i=0;i<9;i++){
+                    gameboard[i].addEventListener('click',() => {
+                        if (turnToPlay == player1.name && R[i] == undefined && gameover == false){
+                            R[i] = 1;
+                            randomPosibilities.splice(randomPosibilities.findIndex((element) => element == i),1)
+                            gameboard[i].innerHTML = 'X'
+                            turnToPlay = player2.name;
+                            evaluateResult();
+                            evaluateTie();
+                        }
+                        else if (turnToPlay == player2.name && R[i] == undefined && gameover == false) {
+                            R[i] = -1;
+                            randomPosibilities.splice(randomPosibilities.findIndex((element) => element == i),1)
+                            gameboard[i].innerHTML = 'O'
+                            turnToPlay = player1.name;
+                            evaluateResult();
+                            evaluateTie();
+                        }
+                    })
+                }
             }
 
-            if (againstComputer.checked == true){
+            if (againstComputer.checked == true){ //Logic player vs computer
+
+                againstHuman.style.display = 'none'
+                humanDisplay.style.display = 'none'
 
                 player2 = playerFactory('Computer')
                 for (let i=0;i<9;i++){
@@ -144,7 +157,6 @@ const Gameboard = (() => {
 
     const evaluateTie = function(){
         if(randomPosibilities == false && message.innerText == ''){
-            console.log('aaa')
             message.style.display = 'block'
             message.innerHTML = 'It\'s a Tie! Play Again'
         }
