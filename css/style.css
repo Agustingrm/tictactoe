@@ -2,6 +2,8 @@ body {
     font-family: 'Montserrat', sans-serif;
     background-color: #2A519b;
     padding-top: 10px;
+    margin-left: 0px;
+    margin-right: 0px;
 }
 
 h1{
@@ -120,3 +122,5 @@ input {
     height: 50px;
     margin: 10px;
 }
+
+medias
