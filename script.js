@@ -83,6 +83,9 @@ const Gameboard = (() => {
                             turnToPlay = player2.name;
                             evaluateResult();
                             evaluateTie();
+                            if (gameover == true){
+                                turnToPlay = player1.name;
+                            }
                         }
                         else if (turnToPlay == player2.name && R[i] == undefined && gameover == false) {
                             R[i] = -1;
@@ -110,15 +113,17 @@ const Gameboard = (() => {
                             gameboard[i].innerHTML = 'X'
                             evaluateResult();
                             evaluateTie();
-                            let randomValue = Math.floor(Math.random()*randomPosibilities.length)
-                            R[randomPosibilities[randomValue]] = -1;
-                            console.log('Random Value ' + randomValue)
-                            let numberSelectedByComputer = randomPosibilities.findIndex((element) => element == randomPosibilities[randomValue])
-                            randomPosibilities.splice(numberSelectedByComputer,1)
-                            console.log('random posi ' + randomPosibilities)
-                            console.log('R = '+ R)
-                            evaluateResult();
-                            displayMachineResult()
+                            if (gameover == false){
+                                let randomValue = Math.floor(Math.random()*randomPosibilities.length)
+                                R[randomPosibilities[randomValue]] = -1;
+                                console.log('Random Value ' + randomValue)
+                                let numberSelectedByComputer = randomPosibilities.findIndex((element) => element == randomPosibilities[randomValue])
+                                randomPosibilities.splice(numberSelectedByComputer,1)
+                                console.log('random posi ' + randomPosibilities)
+                                console.log('R = '+ R)
+                                evaluateResult();
+                                displayMachineResult()
+                            }
                         }
                     })
                 }
